@@ -4,10 +4,10 @@ import {GET_ALL_PRODUCTS} from "../lib/queries";
 import apolloClient from "../lib/apollo";
 import Cart from "../components/Cart";
 import Layout from "../components/Layout";
+import Search from "../components/Search";
 
 
 const Home: NextPage = ({data}: any) => {
-
   return (
     <Layout>
       <div className='container mx-auto'>

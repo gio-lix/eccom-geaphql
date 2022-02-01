@@ -1,7 +1,6 @@
 import {FC} from "react"
 import {IProps} from "../type";
 import {BACKAND_URL} from "../helper";
-import Image from "next/image";
 import {useRouter} from "next/router";
 
 interface ICart {
@@ -11,11 +10,10 @@ interface ICart {
 const Cart: FC<ICart> = ({id,cart:{images, price,name}}) => {
     const router = useRouter()
     const img = images?.data[0].attributes.url
-    console.log(id)
   return (
      <>
          <div
-             className="max-w-xs h-[500px] rounded-md bg-white flex flex-col justify-end overflow-hidden shadow-lg hover:scale-105 transition duration-500 cursor-pointer">
+             className="max-w-xs h-[500px]  rounded-md bg-white flex flex-col justify-end overflow-hidden shadow-lg hover:scale-105 transition duration-500 cursor-pointer">
              <div onClick={() => router.push(`/product/${id}`)} className='cursor-pointer '>
                  <img  src={`${BACKAND_URL}${img}`} className='w-full ' alt={name}/>
              </div>

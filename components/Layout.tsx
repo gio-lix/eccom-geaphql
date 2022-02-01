@@ -1,6 +1,7 @@
 import {FC} from "react"
 import Head from 'next/head'
 import Navbar from "./Navbar";
+import Search from "./Search";
 
 interface ILayout {
     title?: string
@@ -17,6 +18,7 @@ const Layout: FC<ILayout> = ({children, keywords, description, title}) => {
                 <meta name='description' content={description}/>
             </Head>
             <Navbar/>
+            <Search />
             <main>
                 {children}
             </main>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import {useRouter} from "next/router";
 import { parseCookies, destroyCookie } from 'nookies'
 import {createStore} from "../context/store";
+import Categories from "./Categories";
 
 
 interface INavbar {
@@ -22,11 +23,14 @@ const Navbar: FC<INavbar> = () => {
             <h1 onClick={() => router.push('/')} className='text-3xl cursor-pointer font-semibold text-gray-300'>
                 LOGO
             </h1>
+            <Categories />
             <nav>
                 <ul className='flex space-x-3'>
                     {(graphqlToken) ? (
                         <>
-                            <button onClick={handleLogout}>Logout</button>
+                            <li>
+                                <button onClick={handleLogout}>Logout</button>
+                            </li>
                             <li>
                                 <Link href='/order'>
                                     <a>Cart  {state?.cart?.length} </a>

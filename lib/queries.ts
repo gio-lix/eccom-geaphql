@@ -42,3 +42,58 @@ export const GET_PRODUCT_BY_ID = gql`
       }
     }
   `
+
+export const GET_ALL_CATEGORIES = gql`
+    query Categories {
+      categories {
+        data {
+          id
+          attributes {
+            name
+          }
+        }
+      }
+    }
+  `
+
+export const GET_PRODUCTS_BY_CATEGORIES = gql`
+    query Category($categoryId: ID) {
+      category(id: $categoryId) {
+          data {
+            id
+            attributes {
+                products {
+                  data {
+                    id
+                    attributes {
+                      name
+                      price
+                      description
+                      images {
+                        data {
+                          attributes {
+                            url
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+            }
+          }
+      }
+    }
+  `
+
+export const GET_PRODUCT_BY_NAME = gql`
+      query Products($filters: ProductFiltersInput) {
+        products(filters: $filters) {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+      }
+    `
