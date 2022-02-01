@@ -1,5 +1,4 @@
 import {createContext, useReducer, useState} from "react";
-import {PayloadOptions} from "next/dist/server/send-payload";
 
 export const createStore = createContext<any | null>(null)
 const initialState = {
@@ -19,8 +18,9 @@ const reducerState = (state: any, action: any) => {
                 return {...state, cart: [...state.cart,{...productOld, qty: 1}]}
             }
         case "DELETE_CART":
-
             return {...state, cart:  state.cart.filter((el: any) => el.id !== action.payload)}
+        case "DELETE_ALL":
+            return {...state, cart: []}
         default:
             return state
     }

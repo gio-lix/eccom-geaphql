@@ -1,16 +1,24 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import Layout from "../components/Layout";
 import {createStore} from "../context/store";
 import {BACKAND_URL} from "../helper";
 import {MdDelete} from "react-icons/md";
+import {parseCookies} from "nookies";
+import Checkout from "../components/Checkout";
 
 const Order = () => {
     const {state, dispatch} = useContext(createStore)
+    const [checkout, setCheckout] = useState<boolean>(false);
+    const {graphqlToken} = parseCookies()
+
     const funcTotal = (item: any) => {
-      return state?.cart && item.reduce((acc: any, a: any) => {
+        return state?.cart && item.reduce((acc: any, a: any) => {
             return acc + a.price
         }, 0).toFixed(2)
     }
+
+    if (checkout) return <Checkout setCheckout={setCheckout}/>
+
     return (
         <Layout>
             <div className='p-8'>
@@ -44,7 +52,7 @@ const Order = () => {
                 <div>
                     <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
                         <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                            <table className="min-w-full leading-normal">
+                            <table className="min-w-full leading-normal relative ">
                                 <thead>
                                 <tr>
                                     <th
@@ -69,7 +77,8 @@ const Order = () => {
                                     </th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                {state?.cart?.length > 0 ? (
+                                    <tbody>
                                     {state?.cart?.map((el: any) => {
                                         return (
                                             <tr key={el.id}>
@@ -78,7 +87,7 @@ const Order = () => {
                                                         <div className="flex-shrink-0 w-10 h-10">
                                                             <img className="w-full h-full rounded-full"
                                                                  src={`${BACKAND_URL}${el.images?.data[0]?.attributes?.url}`}
-                                                            alt=""/>
+                                                                 alt=""/>
                                                         </div>
                                                         <div className="ml-3">
                                                             <p className="text-gray-900 whitespace-no-wrap">
@@ -95,8 +104,9 @@ const Order = () => {
                                                     </div>
                                                 </td>
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                    <div onClick={() => dispatch({type: "DELETE_CART", payload: el.id})} className='flex space-x-2 cursor-pointer'>
-                                                            <MdDelete className='w-7 h-6'/>
+                                                    <div onClick={() => dispatch({type: "DELETE_CART", payload: el.id})}
+                                                         className='flex space-x-2 cursor-pointer'>
+                                                        <MdDelete className='w-7 h-6'/>
                                                     </div>
                                                 </td>
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -105,12 +115,12 @@ const Order = () => {
                                                     </p>
                                                 </td>
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-									<span
-                                        className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                        $
-                                        <span aria-hidden
-                                              className="absolute inset-0 bg-green-200 opacity-50 rounded-full"> </span>
-									<span className="relative">
+									            <span
+                                                    className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                    $
+                                                    <span aria-hidden
+                                                          className="absolute inset-0 bg-green-200 opacity-50 rounded-full"> </span>
+									            <span className="relative">
                                         {el.price}
                                     </span>
 									</span>
@@ -118,14 +128,19 @@ const Order = () => {
                                             </tr>
                                         )
                                     })}
-                                </tbody>
+                                    </tbody>
+                                ) : (
+                                    <div className=' absolute z-10 top-10 left-0 w-full h-28 flex justify-center items-center bg-green-50 '>
+                                        <p className='font-bold text-gray-400 text-3xl'>Cart Is Empty</p>
+                                    </div>
+                                )}
                             </table>
                             <div
-                                className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
-						<span className="text-xs xs:text-sm text-gray-900">
-                            Showing 1 to 4 of 50 Entries
-                        </span>
-                                <div className="inline-flex mt-2 xs:mt-0">
+                                className="px-5 py-5 bg-white border-t relative flex flex-col xs:flex-row items-center xs:justify-between          ">
+                                    <span className="text-xs xs:text-sm text-gray-900">
+                                        Showing 1 to 4 of 50 Entries
+                                    </span>
+                                <div className="inline-flex  mt-2 xs:mt-0">
                                     <button
                                         className="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l">
                                         Prev
@@ -135,21 +150,21 @@ const Order = () => {
                                         className="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
                                         Next
                                     </button>
+
+                                </div>
+                                <div className='absolute flex items-center justify-center  w-52 h-full top-0 right-0'>
+                                    {graphqlToken ? (
+                                        <button onClick={() => setCheckout(true)}
+                                                className='bg-indigo-500 hover:bg-indigo-600 rounded-lg text-white py-1 px-3 '>{graphqlToken ? 'checkour' : 'sadsadsa'}</button>
+                                    ) : (
+                                        <p>Please Login In</p>
+                                    )}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {/*<h1>Order</h1>*/}
-            {/*{state?.cart?.map((el: any) => (*/}
-            {/*    <div key={el.id}>*/}
-            {/*        <h2>{el.name}</h2>*/}
-            {/*        {el.qty && (*/}
-            {/*            <p>{el.qty}</p>*/}
-            {/*        )}*/}
-            {/*    </div>*/}
-            {/*))}*/}
         </Layout>
     );
 };
