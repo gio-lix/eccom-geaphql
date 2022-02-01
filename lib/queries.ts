@@ -1,8 +1,8 @@
 import {gql} from "@apollo/client";
 
 export const GET_ALL_PRODUCTS = gql`
-    query getAllProducts {
-      products {
+    query getAllProducts($pagination: PaginationArg) {
+      products(pagination: $pagination)  {
         data {
           id
           attributes {
@@ -16,6 +16,11 @@ export const GET_ALL_PRODUCTS = gql`
                 }
               }
             }
+          }
+        }
+        meta {
+          pagination {
+            pageCount
           }
         }
       }
