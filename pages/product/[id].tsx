@@ -17,9 +17,12 @@ const Product = () => {
     const [count, setCount] = useState<number>(0);
     const {data , loading, error} = useQuery(GET_PRODUCT_BY_ID, { variables: {  productId: Number(query.id)} })
     if (loading) return (
+        <Layout>
             <div className='flex justify-center mt-52'>
                 <ClipLoader   loading={loading}  size={50} />
             </div>
+        </Layout>
+
     )
 
     const {images,  name, description, price} = data?.product?.data?.attributes
@@ -34,7 +37,7 @@ const Product = () => {
         setCount(count + 1)
     }
     const handleCart = () => {
-        dispatch({type: "ADD_CART", payload: {...data?.product?.data?.attributes, id: data?.product?.data?.id}})
+        dispatch({type: "ADD_CART", payload: {...data?.product?.data?.attributes,  id: data?.product?.data?.id}})
     }
 
     return (

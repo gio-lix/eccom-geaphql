@@ -5,6 +5,8 @@ import {BACKAND_URL} from "../helper";
 import {MdDelete} from "react-icons/md";
 import {parseCookies} from "nookies";
 import Checkout from "../components/Checkout";
+import {GrFormAdd} from "react-icons/gr";
+import {AiOutlineMinus} from "react-icons/ai";
 
 const Order = () => {
     const {state, dispatch} = useContext(createStore)
@@ -18,6 +20,15 @@ const Order = () => {
     }
 
     if (checkout) return <Checkout setCheckout={setCheckout}/>
+    const handleBasketAdd = (item: number) => {
+        const addCart =  state?.cart?.filter((el: any) => el.id === item)
+        dispatch({type: "ADD_CART", payload: {...addCart[0], id: addCart[0].id } })
+    }
+    const handleMinus = (item: any) => {
+        const addCart =  state?.cart?.filter((el: any) => el.id === item)
+        if (addCart[0].qty < 2) return
+        dispatch({type: "MINUS_CART", payload: {...addCart[0], id: addCart[0].id } })
+    }
 
     return (
         <Layout>
@@ -37,7 +48,6 @@ const Order = () => {
                             </div>
                         )}
                     </div>
-
                     <div className="flex items-center justify-between">
                         <div className="flex bg-gray-50 items-center p-2 rounded-md">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400"
@@ -96,11 +106,16 @@ const Order = () => {
                                                         </div>
                                                     </div>
                                                 </td>
-
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                     <div className='flex space-x-2 '>
-                                                        <button className='w-7 h-7 border border-green-400'>+</button>
-                                                        <button className='w-7 h-7 border border-green-400'>-</button>
+                                                        <button  onClick={(item) => handleMinus(el.id)}
+                                                                 className='w-7 h-7 flex justify-center items-center border border-green-400'>
+                                                            <AiOutlineMinus  className='text-xl'  />
+                                                        </button>
+                                                        <button onClick={(item) => handleBasketAdd(el.id)}
+                                                                className='w-7 h-7 flex justify-center items-center border border-green-400'>
+                                                            <GrFormAdd className='text-xl' />
+                                                        </button>
                                                     </div>
                                                 </td>
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -130,13 +145,14 @@ const Order = () => {
                                     })}
                                     </tbody>
                                 ) : (
-                                    <div className=' absolute z-10 top-10 left-0 w-full h-28 flex justify-center items-center bg-green-50 '>
+                                    <div
+                                        className=' absolute z-10 top-10 left-0 w-full h-28 flex justify-center items-center bg-green-50 '>
                                         <p className='font-bold text-gray-400 text-3xl'>Cart Is Empty</p>
                                     </div>
                                 )}
                             </table>
                             <div
-                                className="px-5 py-5 bg-white border-t relative flex flex-col xs:flex-row items-center xs:justify-between          ">
+                                className="px-5 py-5 bg-white border-t relative flex flex-col xs:flex-row items-center xs:justify-between ">
                                     <span className="text-xs xs:text-sm text-gray-900">
                                         Showing 1 to 4 of 50 Entries
                                     </span>
