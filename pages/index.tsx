@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
-import {GET_ALL_PRODUCTS} from "../lib/queries";
-import apolloClient from "../lib/apollo";
+import {GET_ALL_PRODUCTS, GET_CURRENCY} from "../lib/queries";
 import Cart from "../components/Cart";
 import Layout from "../components/Layout";
 import Pagination from "../components/Pagination";

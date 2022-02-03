@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {ChangeEvent, useContext, useState} from 'react';
 import Layout from "../../components/Layout";
 import {useQuery} from "@apollo/client";
 import {GET_PRODUCT_BY_ID} from "../../lib/queries";
@@ -29,11 +29,14 @@ const Product = () => {
         </Layout>
     )
 
-    const {images, size: sizes, name, description, price, colors} = data?.product?.data?.attributes
+    const {images,prices: {prices}, size: sizes, name, description, price, colors} = data?.product?.data?.attributes
+
 
     const img = images?.data[count]?.attributes?.url
-    const newSize = addSize || sizes[0]
+    const oldSize = sizes && sizes[0]
+    const newSize = addSize || oldSize
     const newColor = addColor || colors?.colors_values[0]
+
     const handleClick = () => {
         if (count === images?.data.length - 1) {
             setCount(0)
@@ -48,7 +51,7 @@ const Product = () => {
         }
         setCount(count - 1)
     }
-    console.log('newSize', newSize)
+
     const handleCart = () => {
         dispatch({
             type: "ADD_CART",
@@ -79,13 +82,16 @@ const Product = () => {
                     </div>
                     <div className='col-span-3'>
                         <h1 className='text-center font-semibold'>{name}</h1>
-                        <div className='flex space-x-2 justify-start my-3 px-2'>
-                            <p className='font-medium text-gray-700'>Price</p>
-                            <span className='font-medium'>${price}</span>
+                        <div className='flex relative space-x-5 justify-start my-3 px-2'>
+                            <p  className='uppercase font-medium text-gray-700'>Price</p>
+                            <div className='flex absolute space-x-2  left-[87px]'>
+                                <p className='font-medium text-gray-700'>{Object.keys(prices[0])}</p>
+                                <span className='font-medium'>{Object.values(prices[0])}</span>
+                            </div>
                         </div>
                         <div className='relative flex justify-start space-x-5  px-2'>
-                            <h3>Size: </h3>
-                            <div className='absolute left-10'>
+                            <h3 className='uppercase'>Size: </h3>
+                            <div className='absolute left-20'>
                                 {sizes?.map((e: string[], i: number) => (
                                     <button onClick={() => setAddSize(e)}
                                             className={`${addSize === e ? 'bg-black' : ' bg-gray-500'} hover:bg-black text-white ml-2 w-8 h-8 text-center`}
@@ -96,8 +102,8 @@ const Product = () => {
                             </div>
                         </div>
                         <div className='relative flex justify-start space-x-5 my-3  px-2'>
-                            <h3>Colors: </h3>
-                            <div className='absolute left-10'>
+                            <h3 className='uppercase'>Colors: </h3>
+                            <div className='absolute left-20'>
                                 {colors?.colors_values?.map((e: string, i: number) => {
                                     return (
                                         <button onClick={() => setAddColor(e)}

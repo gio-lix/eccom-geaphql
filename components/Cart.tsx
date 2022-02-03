@@ -16,7 +16,15 @@ const Cart: FC<ICart> = ({id,cart}) => {
 
     const newColor = cart?.colors?.colors_values[0]
     const newSize = cart?.size && cart?.size[0]
-    console.log(newSize)
+    const currentPrices = cart?.prices?.prices
+
+    console.log('state.currency', state.currency)
+
+
+    const currentCurrency = (el: any) => {
+        const currency = el?.filter((e: any) => Object.entries(e)[0][0].includes(state.currency))
+        return currency[0]
+    }
 
     const handleAddCart = () => {
         dispatch({type: "ADD_CART", payload: {...cart, size: newSize, color: newColor, id: id}})
@@ -29,14 +37,16 @@ const Cart: FC<ICart> = ({id,cart}) => {
                  <img src={`${BACKAND_URL}${img}`} alt="img"/>
              </div>
              <div className='relative h-[180px] w-full bg-white px-2 flex flex-col justify-around '>
-                 <h3 className=" font-semibold leading-4 indent-10 text-gray-600  ">{cart?.name}</h3>
-                 <p className="mt-4 text-lg font-thin ">$ {cart?.price}</p>
+                 <h3 className=" font-semibold leading-4  text-gray-600  ">{cart?.name}</h3>
+                 <div className="mt-4 font-medium  flex space-x-3">
+                     <h3 className=''>{Object.keys(currentCurrency(currentPrices))}</h3>
+                     <p  className=''>{Object.values(currentCurrency(currentPrices))}</p>
+                 </div>
                  <button onClick={handleAddCart} className={`hidden group-hover:inline-flex  absolute bottom-10 right-5 bg-green-400 flex items-center justify-center rounded-full w-8 h-8`}>
                      <RiShoppingCart2Fill className='w-6 h-6 text-white ' />
                  </button>
              </div>
          </div>
-
      </>
   )
 }

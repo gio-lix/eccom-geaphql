@@ -10,6 +10,7 @@ export const GET_ALL_PRODUCTS = gql`
             description
             price
             size
+            prices
             colors
             images {
               data {
@@ -37,6 +38,7 @@ export const GET_PRODUCT_BY_ID = gql`
             name
             price
             size
+            prices
             colors
             description
             images {
@@ -78,6 +80,7 @@ export const GET_PRODUCTS_BY_CATEGORIES = gql`
                       name
                       price
                       size
+                      prices
                       colors
                       description
                       images {
@@ -108,3 +111,14 @@ export const GET_PRODUCT_BY_NAME = gql`
         }
       }
     `
+export const GET_CURRENCY = gql`
+    query Query {
+      currencies {
+        data {
+          attributes {
+            currency
+          }
+        }
+      }
+    }
+  `

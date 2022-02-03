@@ -1,16 +1,27 @@
-import {FC, useContext} from "react"
+import {ChangeEvent, FC, useContext, useEffect, useState} from "react"
 import Link from "next/link";
 import {useRouter} from "next/router";
 import { parseCookies, destroyCookie } from 'nookies'
 import {createStore} from "../context/store";
 import Categories from "./Categories";
+import {useQuery} from "@apollo/client";
+import {GET_CURRENCY} from "../lib/queries";
 
 
 
 const Navbar = () => {
     const {graphqlToken} = parseCookies()
     const router = useRouter()
-    const {state} = useContext(createStore)
+
+    const {state, dispatch} = useContext(createStore)
+    const {data,loading} = useQuery(GET_CURRENCY)
+    const currency = data?.currencies?.data[0].attributes?.currency
+    const [price, setPrice] = useState<string>('');
+
+    const handleChange = (e: ChangeEvent<HTMLSelectElement>) =>  setPrice(e.target.value)
+
+
+    useEffect(() => dispatch({type: "CURRENCY", payload: price}) ,[price])
     const handleLogout = () => {
         destroyCookie(null, 'graphqlToken')
         router.push('/')
@@ -24,6 +35,15 @@ const Navbar = () => {
             <Categories />
             <nav>
                 <ul className='flex space-x-3'>
+                    <li>
+                        {!loading && (
+                            <select onChange={handleChange} name="currency" className='outline-none'>
+                                {currency?.map((e: string, i: number) => (
+                                    <option key={i} value={e}>{e}</option>
+                                ))}
+                            </select>
+                        )}
+                    </li>
                     {(graphqlToken) ? (
                         <>
                             <li>

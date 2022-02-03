@@ -3,7 +3,8 @@ import {number} from "prop-types";
 
 export const createStore = createContext<any | null>(null)
 const initialState = {
-    cart: []
+    cart: [],
+    currency: ''
 }
 
 
@@ -29,6 +30,10 @@ const reducerState = (state: any, action: any) => {
             return {...state, cart: state.cart.filter((el: any) => el.id !== action.payload)}
         case "DELETE_ALL":
             return {...state, cart: []}
+        case "CURRENCY":
+            return  {
+                ...state, currency: action.payload
+            }
         default:
             return state
     }

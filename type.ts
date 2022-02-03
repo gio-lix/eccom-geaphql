@@ -6,4 +6,5 @@ export interface IProps {
     price?: number
     colors: any
     size: any
+    prices: any
 }
