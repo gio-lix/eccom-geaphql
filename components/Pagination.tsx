@@ -1,15 +1,17 @@
 import {FC} from "react"
 
 interface IPagination {
-    pageCount: () => void
+    pageCount: number[]
     updatePage: Function
 }
 
 const Pagination: FC<IPagination> = ({pageCount, updatePage}) => {
+    // @ts-ignore
+    const pages: any = [...Array(pageCount).keys()]
     return (
         <div className=' text-center mb-10'>
             {
-                [...Array(pageCount).keys()].map(el => {
+                pages.map((el: any) => {
                     return (
                         <button
                             onClick={() => updatePage(el+1)}
