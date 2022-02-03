@@ -29,7 +29,7 @@ const Order = () => {
         if (addCart[0].qty < 2) return
         dispatch({type: "MINUS_CART", payload: {...addCart[0], id: addCart[0].id } })
     }
-
+    console.log()
     return (
         <Layout>
             <div className='p-8'>
@@ -48,15 +48,13 @@ const Order = () => {
                             </div>
                         )}
                     </div>
-                    <div className="flex items-center justify-between">
-                        <div className="flex bg-gray-50 items-center p-2 rounded-md">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400"
-                                 viewBox="0 0 20 20"
-                                 fill="currentColor">
-                            </svg>
-                            <input className="bg-gray-50 outline-none ml-1 block " type="text" name="" id=""
-                                   placeholder="search..."/>
-                        </div>
+                    <div className=' flex items-center justify-center  w-52 h-full top-0 right-0'>
+                        {graphqlToken ? (
+                            <button onClick={() => setCheckout(true)}
+                                    className='bg-indigo-500 hover:bg-indigo-600 rounded-lg text-white py-1 px-3 '>{graphqlToken ? 'checkour' : 'sadsadsa'}</button>
+                        ) : (
+                            <p>Please Login In</p>
+                        )}
                     </div>
                 </div>
                 <div>
@@ -68,6 +66,10 @@ const Order = () => {
                                     <th
                                         className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                         Name
+                                    </th>
+                                    <th
+                                        className=" py-3 border-b-2 border-gray-200 bg-gray-100  text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        Size
                                     </th>
                                     <th
                                         className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -91,7 +93,7 @@ const Order = () => {
                                     <tbody>
                                     {state?.cart?.map((el: any) => {
                                         return (
-                                            <tr key={el.id}>
+                                            <tr key={el.id} >
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white w-3/6 text-sm">
                                                     <div className="flex items-center">
                                                         <div className="flex-shrink-0 w-10 h-10">
@@ -105,6 +107,9 @@ const Order = () => {
                                                             </p>
                                                         </div>
                                                     </div>
+                                                </td>
+                                                <td className=' text-xl border-b border-gray-200 '>
+                                                    {el.size && <p className='w-7 h-7 text-center bg-black text-white'>{el.size}</p>}
                                                 </td>
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                     <div className='flex space-x-2 '>
@@ -151,32 +156,7 @@ const Order = () => {
                                     </div>
                                 )}
                             </table>
-                            <div
-                                className="px-5 py-5 bg-white border-t relative flex flex-col xs:flex-row items-center xs:justify-between ">
-                                    <span className="text-xs xs:text-sm text-gray-900">
-                                        Showing 1 to 4 of 50 Entries
-                                    </span>
-                                <div className="inline-flex  mt-2 xs:mt-0">
-                                    <button
-                                        className="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l">
-                                        Prev
-                                    </button>
-                                    &nbsp; &nbsp;
-                                    <button
-                                        className="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
-                                        Next
-                                    </button>
-
-                                </div>
-                                <div className='absolute flex items-center justify-center  w-52 h-full top-0 right-0'>
-                                    {graphqlToken ? (
-                                        <button onClick={() => setCheckout(true)}
-                                                className='bg-indigo-500 hover:bg-indigo-600 rounded-lg text-white py-1 px-3 '>{graphqlToken ? 'checkour' : 'sadsadsa'}</button>
-                                    ) : (
-                                        <p>Please Login In</p>
-                                    )}
-                                </div>
-                            </div>
+                            <div className="px-5 py-5 bg-white border-t relative flex flex-col xs:flex-row items-center xs:justify-between "> </div>
                         </div>
                     </div>
                 </div>

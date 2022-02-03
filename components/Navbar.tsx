@@ -6,10 +6,8 @@ import {createStore} from "../context/store";
 import Categories from "./Categories";
 
 
-interface INavbar {
 
-}
-const Navbar: FC<INavbar> = () => {
+const Navbar = () => {
     const {graphqlToken} = parseCookies()
     const router = useRouter()
     const {state} = useContext(createStore)
@@ -33,7 +31,7 @@ const Navbar: FC<INavbar> = () => {
                             </li>
                             <li>
                                 <Link href='/order'>
-                                    <a>Cart  {state?.cart?.length} </a>
+                                    <a className='px-4 bg-green-400 font-bold align-middle text-white py-0.5 rounded-xl'>Cart  {state?.cart?.length > 0 && state?.cart?.length} </a>
                                 </Link>
                             </li>
                         </>

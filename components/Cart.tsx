@@ -14,7 +14,6 @@ const Cart: FC<ICart> = ({id,cart}) => {
     const img = cart?.images?.data[0].attributes.url
     const {state, dispatch} = useContext(createStore)
 
-
     const handleAddCart = () => {
         dispatch({type: "ADD_CART", payload: {...cart, id: id}})
     }

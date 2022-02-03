@@ -12,6 +12,7 @@ import {BiShow} from "react-icons/bi";
 const Product = () => {
     const {query} = useRouter()
     const router = useRouter()
+    const [addSize, setAddSize] = useState<any>('');
     const {state, dispatch} = useContext(createStore)
 
     const [count, setCount] = useState<number>(0);
@@ -25,7 +26,7 @@ const Product = () => {
 
     )
 
-    const {images,  name, description, price} = data?.product?.data?.attributes
+    const {images, size: sizes, name, description, price} = data?.product?.data?.attributes
 
 
     const img = images?.data[count]?.attributes?.url
@@ -36,10 +37,17 @@ const Product = () => {
         }
         setCount(count + 1)
     }
-    const handleCart = () => {
-        dispatch({type: "ADD_CART", payload: {...data?.product?.data?.attributes,  id: data?.product?.data?.id}})
+    const handleClickPrev = () => {
+        if (count === 0) {
+            setCount(images?.data.length - 1)
+            return
+        }
+        setCount(count - 1)
     }
 
+    const handleCart = () => {
+        dispatch({type: "ADD_CART", payload: {...data?.product?.data?.attributes, size: addSize,   id: data?.product?.data?.id}})
+    }
     return (
         <Layout>
             <div className='container mx-auto mt-3'>
@@ -47,27 +55,33 @@ const Product = () => {
                     <div  className='col-span-5  flex relative'>
                             <div className='absolute '>
                                     <img  src={`${BACKAND_URL}${img}`} className='w-full ' alt={name}/>
-                                <div  className='absolute flex items-center justify-end top-0 z-10 w-full h-full border border-black '>
+                                <div  className='absolute flex items-center justify-between px-3 top-0 z-10 w-full h-full  '>
                                     {images.data.length > 1 && (
-                                        <button onClick={handleClick} className='p-3 bg-black bg-opacity-40 text-white '>next</button>
+                                        <>
+                                            <button onClick={handleClick} className='p-4  bg-black bg-opacity-40 text-white '>prev</button>
+                                            <button onClick={handleClickPrev} className='p-4  bg-black bg-opacity-40 text-white '>next</button>
+                                        </>
                                     )}
                                 </div>
                             </div>
 
                     </div>
-
-                    {/*<div className='col-span-5 bg-red-100'>*/}
-                    {/*    <img  src={`${BACKAND_URL}${img}`} className='w-full ' alt={name}/>*/}
-                    {/*</div>*/}
-
-                    <div className='col-span-3 '>
+                    <div className='col-span-3'>
                         <h1 className='text-center font-semibold'>{name}</h1>
                         <div className='flex space-x-2 justify-center my-3'>
                             <p className='font-medium text-gray-700'>Price</p>
                             <span className='font-medium'>${price}</span>
                         </div>
+                        <div className='flex justify-center space-x-5'>
+                            <h3>Size: </h3>
+                            {sizes?.map((e: string[], i: number) => (
+                                <button onClick={() => setAddSize(e)} className={`${addSize === e ? 'bg-black' : ' bg-gray-500'} hover:bg-black text-white w-8 h-8 text-center`} key={i}>
+                                    {e}
+                                </button>
+                            ))}
+                        </div>
                         <p className='text-center my-3 text-gray-500'>{description}</p>
-                        <div className='flex space-x-10 '>
+                        <div className='flex justify-center space-x-10 '>
                             <div onClick={handleCart} className="p-2 md:w-40 group cursor-pointer">
                                 <div
                                     className="flex items-center group p-4 bg-green-200 rounded-lg shadow-xs cursor-pointer hover:bg-green-500 hover:text-gray-100">
@@ -76,21 +90,16 @@ const Product = () => {
                                         <p className=" text-xs font-medium ml-2 ">
                                             Add Cart
                                         </p>
-
                                     </div>
                                 </div>
                             </div>
-
                             <div onClick={() => router.push('/order')} className="p-2 md:w-40 group ">
-                                <div
-                                    className="flex items-center p-4 bg-red-200 rounded-lg shadow-xs cursor-pointer hover:bg-red-500 hover:text-gray-100">
-
+                                <div className="flex items-center p-4 bg-red-200 rounded-lg shadow-xs cursor-pointer hover:bg-red-500 hover:text-gray-100">
                                     <BiShow className='w-6 h-6 group-hover:text-white' />
                                     <div>
                                         <p className=" text-xs font-medium ml-2 ">
                                             show order
                                         </p>
-
                                     </div>
                                 </div>
                             </div>
