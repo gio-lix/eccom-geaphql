@@ -13,7 +13,7 @@ const Categories = () => {
     const {data,loading,error} = useQuery(GET_ALL_CATEGORIES)
     return (
         <>
-            <div className='flex space-x-2'>
+            <div className=' flex space-x-2'>
                 {data?.categories?.data.map(({id, attributes}: ICategories) => (
                     <div key={id}>
                         <Link href={`/category/${id}`} >

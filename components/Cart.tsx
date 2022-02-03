@@ -18,8 +18,6 @@ const Cart: FC<ICart> = ({id,cart}) => {
     const newSize = cart?.size && cart?.size[0]
     const currentPrices = cart?.prices?.prices
 
-    console.log('state.currency', state.currency)
-
 
     const currentCurrency = (el: any) => {
         const currency = el?.filter((e: any) => Object.entries(e)[0][0].includes(state.currency))

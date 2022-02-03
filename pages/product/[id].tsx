@@ -53,12 +53,12 @@ const Product = () => {
     }
 
     const handleCart = () => {
+        if (!graphqlToken) return
         dispatch({
             type: "ADD_CART",
             payload: {...data?.product?.data?.attributes, size: newSize, color: newColor, id: data?.product?.data?.id}
         })
     }
-
     return (
         <Layout>
             <div className='container mx-auto mt-3 '>
@@ -90,7 +90,7 @@ const Product = () => {
                             </div>
                         </div>
                         <div className='relative flex justify-start space-x-5  px-2'>
-                            <h3 className='uppercase'>Size: </h3>
+                            {sizes && <h3 className={`uppercase`}>Size: </h3>}
                             <div className='absolute left-20'>
                                 {sizes?.map((e: string[], i: number) => (
                                     <button onClick={() => setAddSize(e)}
@@ -125,7 +125,7 @@ const Product = () => {
                         </div>
                         <p className='text-start px-2 indent-4 my-3 text-gray-700'>{description}</p>
                         <div className='flex justify-center space-x-10 '>
-                            <div onClick={handleCart} className="p-2 md:w-40 group cursor-pointer">
+                            <div  onClick={handleCart} className="p-2 md:w-40 group cursor-pointer">
                                 <div
                                     className="flex items-center group p-4 bg-green-200 rounded-lg shadow-xs cursor-pointer hover:bg-green-500 hover:text-gray-100">
                                     <GrAdd className='w-6 h-6 group-hover:text-white'/>

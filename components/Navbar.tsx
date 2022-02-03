@@ -32,7 +32,9 @@ const Navbar = () => {
             <h1 onClick={() => router.push('/')} className='text-3xl cursor-pointer font-semibold text-gray-300'>
                 LOGO
             </h1>
-            <Categories />
+            <div >
+                <Categories />
+            </div>
             <nav>
                 <ul className='flex space-x-3'>
                     <li>

@@ -31,7 +31,7 @@ const Home: NextPage = () => {
                 <ClipLoader   loading={loading}  size={50} />
             </div>
         )}
-      <div className='container mx-auto'>
+      <div className='container mx-auto '>
           <div className="px-10 py-10  grid gap-10 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 ">
               {data?.products?.data?.map(({id, attributes}: any) => <Cart id={id} cart={attributes} key={id} />)}
           </div>
