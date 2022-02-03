@@ -117,7 +117,7 @@ const Order = () => {
                                                     {el.color && <p style={{backgroundColor: `${el.color}`}}  className={`${el.color === '#ffffff' && "border border-black"} w-7 h-7 text-center  text-white`}> </p>}
                                                 </td>
                                                 <td className=' text-xl border-b border-gray-200 '>
-                                                    {el.size && <p className='w-7 h-7 text-center bg-black text-white'>{el.size}</p>}
+                                                    {el.size && <p className='w-[33px] h-7 text-center text-lg bg-black text-white'>{el.size}</p>}
                                                 </td>
 
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">

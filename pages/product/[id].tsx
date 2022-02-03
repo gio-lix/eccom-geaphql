@@ -32,9 +32,8 @@ const Product = () => {
     const {images, size: sizes, name, description, price, colors} = data?.product?.data?.attributes
 
     const img = images?.data[count]?.attributes?.url
-    const newSize = addColor ? addColor : sizes[0]
+    const newSize = addSize || sizes[0]
     const newColor = addColor || colors?.colors_values[0]
-
     const handleClick = () => {
         if (count === images?.data.length - 1) {
             setCount(0)
@@ -49,6 +48,7 @@ const Product = () => {
         }
         setCount(count - 1)
     }
+    console.log('newSize', newSize)
     const handleCart = () => {
         dispatch({
             type: "ADD_CART",
