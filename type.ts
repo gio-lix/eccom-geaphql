@@ -4,4 +4,6 @@ export interface IProps {
     description?: string
     name?: string
     price?: number
+    colors: any
+    size: any
 }

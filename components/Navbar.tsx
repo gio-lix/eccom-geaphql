@@ -17,7 +17,7 @@ const Navbar = () => {
     }
   return (
      <>
-        <div className='flex justify-between items-center px-10 h-10'>
+        <div className='flex justify-between items-center container mx-auto h-10'>
             <h1 onClick={() => router.push('/')} className='text-3xl cursor-pointer font-semibold text-gray-300'>
                 LOGO
             </h1>

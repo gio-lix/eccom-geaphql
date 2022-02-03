@@ -40,7 +40,7 @@ const Search: FC<ISearch> = () => {
   return (
       <>
           <div  className='px-10 my-6'>
-              <div className="w-full h-10 pl-3 pr-2 bg-white border rounded-lg flex justify-between items-center relative">
+              <div className="container mx-auto w-full h-10 pl-3 pr-2 bg-white border rounded-lg flex justify-between items-center relative">
                   <input ref={searRef}
                          value={nameSearch}
                          onChange={e => setNameSearch(e.target.value)}

@@ -10,7 +10,6 @@ const CategoryPage = () => {
     const {query} = useRouter()
     const {data , loading, error} = useQuery(GET_PRODUCTS_BY_CATEGORIES, { variables: {  categoryId: Number(query.id)} })
 
-
     return (
         <Layout>
             {loading && (

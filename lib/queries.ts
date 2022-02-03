@@ -10,6 +10,7 @@ export const GET_ALL_PRODUCTS = gql`
             description
             price
             size
+            colors
             images {
               data {
                 attributes {
@@ -36,6 +37,7 @@ export const GET_PRODUCT_BY_ID = gql`
             name
             price
             size
+            colors
             description
             images {
               data {
@@ -75,6 +77,8 @@ export const GET_PRODUCTS_BY_CATEGORIES = gql`
                     attributes {
                       name
                       price
+                      size
+                      colors
                       description
                       images {
                         data {
