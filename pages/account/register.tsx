@@ -1,17 +1,27 @@
 import React, {ChangeEvent, SyntheticEvent, useState} from 'react';
 import {useMutation} from "@apollo/client";
-import {LOGIN_USER} from "../../lib/mutation";
+import {SIGNUP_USER} from "../../lib/mutation";
 import Layout from "../../components/Layout";
 import {useForm} from "react-hook-form";
+import {setCookie} from "nookies";
+import {useRouter} from "next/router";
 
 const Register = () => {
-    const [signupUser, {loading, error, data }] = useMutation(LOGIN_USER)
-
+    const [signupUser, {loading, error, data: dataInput }] = useMutation(SIGNUP_USER)
+    const router = useRouter()
     const {register, handleSubmit,reset, watch, formState: { errors }} = useForm({
         mode: 'onBlur'
     })
+    if (dataInput) {
+        setCookie(null, 'graphqlToken', dataInput.register.jwt, {
+            maxAge: 30 * 24 * 60 * 60,
+            path: '/',
+        })
+        router.push('/')
+    }
     if (loading) return <h1>Signing Up ...</h1>
     const onSubmit = (data: any) => {
+        console.log('data', data)
             signupUser({
                 variables: {
                     input: data
@@ -21,7 +31,7 @@ const Register = () => {
     }
     return (
         <Layout>
-            {error &&  <p className='text-center mt-20'>Invalid identifier or password</p>}
+            {/*{error &&  <p className='text-center mt-20'>Invalid identifier or password</p>}*/}
             <div className="flex flex-col items-center justify-center min-h-screen bg-white">
                 <div className="bg-green-400 w-full sm:w-3/4 max-w-lg p-12 pb-6 shadow-2xl rounded">
                     <div className="text-white pb-4 text-3xl font-semibold">Acme Corporation</div>
@@ -30,7 +40,7 @@ const Register = () => {
                             <input
                                 className="block text-gray-700 p-1 ml-0 w-full rounded text-lg font-normal placeholder-gray-300 outline-none"
                                 type="text"
-                                {...register("identifier", {
+                                {...register("username", {
                                     required: true,
                                     minLength: {
                                         value: 5,

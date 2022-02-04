@@ -12,12 +12,12 @@ export const LOGIN_USER = gql`
     `
 
 export const SIGNUP_USER = gql`
-        mutation Register($input: UsersPermissionsRegisterInput!) {
+       mutation Mutation($input: UsersPermissionsRegisterInput!) {
           register(input: $input) {
-              jwt,
-              user {
-                email
-              }
+            jwt
+            user {
+              email
+            }
           }
         }
     `
