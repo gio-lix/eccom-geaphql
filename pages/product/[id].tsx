@@ -126,19 +126,20 @@ const Product = () => {
                         <p className='text-start px-2 indent-4 my-3 text-gray-700'>{description}</p>
                         <div className='flex justify-center space-x-10 '>
                             <div  onClick={handleCart} className="p-2 md:w-40 group cursor-pointer">
-                                <div
-                                    className="flex items-center group p-4 bg-green-200 rounded-lg shadow-xs cursor-pointer hover:bg-green-500 hover:text-gray-100">
-                                    <GrAdd className='w-6 h-6 group-hover:text-white'/>
-                                    <div>
-                                        <p className=" text-xs font-medium ml-2 ">
-                                            {!graphqlToken ? (
-                                                <p onClick={() => router.push('/account/login')}>Login</p>
-                                            ) : (
-                                                <p>Add Cart</p>
-                                            )}
-                                        </p>
+                                {!graphqlToken ?(
+                                    <div onClick={() => router.push('/account/login')}
+                                        className="flex items-center group p-4 bg-green-200 rounded-lg shadow-xs cursor-pointer hover:bg-green-500 hover:text-gray-100">
+                                        <GrAdd className='w-6 h-6 group-hover:text-white'/>
+                                        <p>Login</p>
                                     </div>
-                                </div>
+                                ) : (
+                                    <div
+                                        className="flex items-center group p-4 bg-green-200 rounded-lg shadow-xs cursor-pointer hover:bg-green-500 hover:text-gray-100">
+                                        <GrAdd className='w-6 h-6 group-hover:text-white'/>
+                                        <p>Add Cart</p>
+                                    </div>
+                                )}
+
                             </div>
                             <div onClick={() => router.push('/order')} className="p-2 md:w-40 group ">
                                 <div
