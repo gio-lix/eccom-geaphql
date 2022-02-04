@@ -33,6 +33,7 @@ const Register = () => {
             })
         reset()
     }
+    console.log('errors?.identifier?.message', errors?.username?.message)
     return (
         <Layout>
             {error &&  <p className='text-center mt-20'>Something went wrong</p>}
@@ -54,7 +55,7 @@ const Register = () => {
                                 placeholder="username"
                             />
                             <div  className='text-sm absolute z-20 top-1'>
-                                {errors?.identifier && <p>{errors?.identifier?.message}</p>}
+                                {errors?.identifier && <p>{errors?.username?.message}</p>}
                             </div>
                         </div>
                         <div  className='h-16 relative flex items-end'>
