@@ -120,7 +120,6 @@ const Order = () => {
                                 {state?.cart?.length > 0 ? (
                                     <tbody>
                                     {state?.cart?.map((el: any) => {
-                                        console.log('el.size', )
                                         return (
                                             <tr key={el.id} >
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white w-3/6 text-sm">
@@ -142,19 +141,17 @@ const Order = () => {
 
                                                 <select style={{backgroundColor: `${(el.id === selectColor?.id && selectColor?.color) || el.color}`}}  onChange={(e) => handleChangeColor(e,el)} className='outline-none bg-gray-700 w-[40px] text-white text-xl border-b border-gray-200'>
                                                     <option style={{backgroundColor: `${(el.id === selectColor?.id && selectColor?.color ) || el.color}`}} className='hidden'> </option>
-                                                    {!loading && functionColor(data)[el.id].map((e: any) => {
-                                                        return (
-                                                            <option style={{backgroundColor: `${e}`}} value={e} className='w-5  h-5'>  </option>
-                                                        )
-                                                    })}
+                                                    {!loading && functionColor(data)[el.id].map((e: any, i: number) => (
+                                                        <option key={i} style={{backgroundColor: `${e}`}} value={e} className='w-5  h-5'>  </option>
+                                                    ))}
                                                 </select>
                                                 </td>
                                                 <td>
                                                     {el.size != null && (
                                                         <select  onChange={handleChange} className='outline-none bg-gray-700 w-[55px] text-white text-xl border-b border-gray-200'>
                                                             <option  className='hidden'>{el.size}</option>
-                                                            {!loading && functionSize(data)[el.id]?.map((el: any) => (
-                                                                <option value={el}>{el}</option>
+                                                            {!loading && functionSize(data)[el.id]?.map((el: any, i: number) => (
+                                                                <option key={i} value={el}>{el}</option>
                                                             ))}
                                                         </select>
                                                     )}
