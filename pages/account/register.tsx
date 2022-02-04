@@ -5,7 +5,7 @@ import Layout from "../../components/Layout";
 import {useForm} from "react-hook-form";
 
 const Register = () => {
-    const [signupUser, {loading,error, data }] = useMutation(LOGIN_USER)
+    const [signupUser, {loading, error, data }] = useMutation(LOGIN_USER)
 
     const {register, handleSubmit,reset, watch, formState: { errors }} = useForm({
         mode: 'onBlur'
@@ -21,6 +21,7 @@ const Register = () => {
     }
     return (
         <Layout>
+            {error &&  <p className='text-center mt-20'>Invalid identifier or password</p>}
             <div className="flex flex-col items-center justify-center min-h-screen bg-white">
                 <div className="bg-green-400 w-full sm:w-3/4 max-w-lg p-12 pb-6 shadow-2xl rounded">
                     <div className="text-white pb-4 text-3xl font-semibold">Acme Corporation</div>
