@@ -13,8 +13,9 @@ import {GET_SIZE} from "../lib/queries";
 const Order = () => {
     const {state, dispatch} = useContext(createStore)
     const [selectColor, setSelectColor] = useState<any>();
+    const [selectSize, setSelectSize] = useState<any>();
     const [checkout, setCheckout] = useState<boolean>(false);
-    const {data,loading,error} = useQuery(GET_SIZE)
+    const {data, loading, error} = useQuery(GET_SIZE)
     const {graphqlToken} = parseCookies()
 
     const funcTotal = (item: any) => {
@@ -25,34 +26,44 @@ const Order = () => {
 
     if (checkout) return <Checkout setCheckout={setCheckout}/>
     const handleBasketAdd = (item: number) => {
-        const addCart =  state?.cart?.filter((el: any) => el.id === item)
-        dispatch({type: "ADD_CART", payload: {...addCart[0], id: addCart[0].id } })
+        const addCart = state?.cart?.filter((el: any) => el.id === item)
+        dispatch({type: "ADD_CART", payload: {...addCart[0], id: addCart[0].id}})
     }
     const handleMinus = (item: any) => {
-        const addCart =  state?.cart?.filter((el: any) => el.id === item)
+        const addCart = state?.cart?.filter((el: any) => el.id === item)
         if (addCart[0].qty < 2) return
-        dispatch({type: "MINUS_CART", payload: {...addCart[0], id: addCart[0].id } })
+        dispatch({type: "MINUS_CART", payload: {...addCart[0], id: addCart[0].id}})
     }
 
 
     const functionSize = (item: any) => {
-        return  item?.products?.data?.reduce((acc: any,el: any) => {
-            return {...acc,[el.id]:  el?.attributes?.size}
-        },[])
+        return item?.products?.data?.reduce((acc: any, el: any) => {
+            return {...acc, [el.id]: el?.attributes?.size}
+        }, [])
     }
 
 
     const functionColor = (item: any) => {
-        return  item?.products?.data?.reduce((acc: any,el: any) => {
-            return {...acc,[el.id]:  el?.attributes?.colors?.colors_values}
-        },[])
+        return item?.products?.data?.reduce((acc: any, el: any) => {
+            return {...acc, [el.id]: el?.attributes?.colors?.colors_values}
+        }, [])
     }
 
-    const handleChange = () => {
+    const handleChange = (e:any, id: any) => {
+        const filterState = state?.cart?.filter((e: any) => e.id === id.id)
+        dispatch({
+            type: "ADD_CART",
+            payload: {...filterState[0], size: e.target.value,  id: id.id}
+        })
     }
-    const handleChangeColor = (e: any,id: any) => {
+    const handleChangeColor = (e: any, id: any) => {
+        const filterState = state?.cart?.filter((e: any) => e.id === id.id)
         const selector = {id: id.id, color: e.target.value}
         setSelectColor(selector)
+        dispatch({
+            type: "ADD_CART",
+            payload: {...filterState[0], color: e.target.value,  id: id.id}
+        })
     }
     return (
         <Layout>
@@ -121,7 +132,7 @@ const Order = () => {
                                     <tbody>
                                     {state?.cart?.map((el: any) => {
                                         return (
-                                            <tr key={el.id} >
+                                            <tr key={el.id}>
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white w-3/6 text-sm">
                                                     <div className="flex items-center">
                                                         <div className="flex-shrink-0 w-10 h-10">
@@ -139,17 +150,23 @@ const Order = () => {
                                                 </td>
                                                 <td className=' text-xl border-b border-gray-200 '>
 
-                                                <select style={{backgroundColor: `${(el.id === selectColor?.id && selectColor?.color) || el.color}`}}  onChange={(e) => handleChangeColor(e,el)} className='outline-none bg-gray-700 w-[40px] text-white text-xl border-b border-gray-200'>
-                                                    <option style={{backgroundColor: `${(el.id === selectColor?.id && selectColor?.color ) || el.color}`}} className='hidden'> </option>
-                                                    {!loading && functionColor(data)[el.id].map((e: any, i: number) => (
-                                                        <option key={i} style={{backgroundColor: `${e}`}} value={e} className='w-5  h-5'>  </option>
-                                                    ))}
-                                                </select>
+                                                    <select
+                                                        style={{backgroundColor: `${(el.id === selectColor?.id && selectColor?.color) || el.color}`}}
+                                                        onChange={(e) => handleChangeColor(e, el)}
+                                                        className={`select outline-none bg-gray-700 w-[40px] text-white text-xl border-b border-gray-200 cursor-pointer`}>
+
+                                                        <option  style={{backgroundColor: `${(el.id === selectColor?.id && selectColor?.color) || el.color}`}} className='hidden'> </option>
+                                                        {!loading && functionColor(data)[el.id].map((e: any, i: number) => (
+                                                            <option key={i} style={{backgroundColor: `${e}`}} value={e}
+                                                                    className='w-5   h-5 '> </option>
+                                                        ))}
+                                                    </select>
                                                 </td>
-                                                <td>
+                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                     {el.size != null && (
-                                                        <select  onChange={handleChange} className='outline-none bg-gray-700 w-[55px] text-white text-xl border-b border-gray-200'>
-                                                            <option  className='hidden'>{el.size}</option>
+                                                        <select onChange={(e) => handleChange(e, el)}
+                                                                className='select cursor-pointer text-center outline-none bg-gray-700 w-[37px] text-white text-xl border-b border-gray-200'>
+                                                            <option className='hidden'>{el.size}</option>
                                                             {!loading && functionSize(data)[el.id]?.map((el: any, i: number) => (
                                                                 <option key={i} value={el}>{el}</option>
                                                             ))}
@@ -158,13 +175,13 @@ const Order = () => {
                                                 </td>
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                     <div className='flex space-x-2 '>
-                                                        <button  onClick={(item) => handleMinus(el.id)}
-                                                                 className='w-7 h-7 flex justify-center items-center border border-green-400'>
-                                                            <AiOutlineMinus  className='text-xl'  />
+                                                        <button onClick={(item) => handleMinus(el.id)}
+                                                                className='w-7 h-7 flex justify-center items-center border border-green-400'>
+                                                            <AiOutlineMinus className='text-xl'/>
                                                         </button>
                                                         <button onClick={(item) => handleBasketAdd(el.id)}
                                                                 className='w-7 h-7 flex justify-center items-center border border-green-400'>
-                                                            <GrFormAdd className='text-xl' />
+                                                            <GrFormAdd className='text-xl'/>
                                                         </button>
                                                     </div>
                                                 </td>
@@ -180,9 +197,11 @@ const Order = () => {
                                                     </p>
                                                 </td>
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-									            <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+									            <span
+                                                    className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                                     $
-                                                    <span aria-hidden className="absolute inset-0 bg-green-200 opacity-50 rounded-full"> </span>
+                                                    <span aria-hidden
+                                                          className="absolute inset-0 bg-green-200 opacity-50 rounded-full"> </span>
 									            <span className="relative">
                                         {el.price}
                                     </span>
@@ -199,7 +218,8 @@ const Order = () => {
                                     </div>
                                 )}
                             </table>
-                            <div className="px-5 py-5 bg-white border-t relative flex flex-col xs:flex-row items-center xs:justify-between "> </div>
+                            <div
+                                className="px-5 py-5 bg-white border-t relative flex flex-col xs:flex-row items-center xs:justify-between "> </div>
                         </div>
                     </div>
                 </div>

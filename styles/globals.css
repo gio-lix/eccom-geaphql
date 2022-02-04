@@ -2,7 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-
+/*.disabled:hover {*/
+/*  background-color: powderblue;*/
+/*  transition: background-color .5s;*/
+/*}*/
 
 html,
 body {
@@ -19,4 +22,10 @@ a {
 
 * {
   box-sizing: border-box;
+}
+.select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -webkit-backface-visibility: hidden;
 }
