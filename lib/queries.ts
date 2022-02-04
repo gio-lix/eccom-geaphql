@@ -122,3 +122,19 @@ export const GET_CURRENCY = gql`
       }
     }
   `
+
+
+
+export const GET_SIZE = gql`
+  query Query {
+    products {
+      data {
+        id
+        attributes {
+          size
+          colors
+        }
+      }
+    }
+  }
+`
