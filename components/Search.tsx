@@ -26,7 +26,7 @@ const Search: FC<ISearch> = () => {
         }else {
             setHideResult(false)
         }
-    }, [nameSearch]);
+    }, [nameSearch,getProduct]);
     useEffect(() => {
         window.addEventListener('click', handleClickSearch)
         return () => window.removeEventListener('click', handleClickSearch)

@@ -21,7 +21,7 @@ const Navbar = () => {
     const handleChange = (e: ChangeEvent<HTMLSelectElement>) =>  setPrice(e.target.value)
 
 
-    useEffect(() => dispatch({type: "CURRENCY", payload: price}) ,[price])
+    useEffect(() => dispatch({type: "CURRENCY", payload: price}) ,[price, dispatch])
     const handleLogout = () => {
         destroyCookie(null, 'graphqlToken')
         router.push('/')
