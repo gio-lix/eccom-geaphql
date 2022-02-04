@@ -68,13 +68,13 @@ const Login = () => {
                                 {...register("password", {
                                     required: true,
                                     minLength: {
-                                        value: 5,
+                                        value: 3,
                                         message: 'minimum length 5 characters'
                                     }
                                 })}
                                 placeholder="password"
                             />
-                            <div className='text-sm absolute top-1'>
+                            <div className='text-sm absolute z-10 top-1'>
                                 {errors?.password && <p>{errors?.password?.message}</p>}
                             </div>
                         </div>
