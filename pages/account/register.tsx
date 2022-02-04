@@ -54,8 +54,8 @@ const Register = () => {
                                 })}
                                 placeholder="username"
                             />
-                            <div  className='text-sm absolute z-20 top-1'>
-                                {errors?.identifier && <p>{errors?.username?.message}</p>}
+                            <div  className='text-sm text-black absolute z-20 top-1'>
+                                {errors?.username && <p>{errors?.username?.message}</p>}
                             </div>
                         </div>
                         <div  className='h-16 relative flex items-end'>
@@ -66,18 +66,24 @@ const Register = () => {
                                 placeholder="your email"
                             />
                             <div  className='text-sm absolute top-1'>
-                                {errors?.identifier && <p>{errors?.email?.message}</p>}
+                                {errors?.email && <p>{errors?.email?.message}</p>}
                             </div>
                         </div>
                         <div  className='h-16 relative flex items-end'>
                             <input
                                 className="block text-gray-700 p-1 ml-0 w-full rounded text-lg font-normal placeholder-gray-300 outline-none"
                                 type="password"
-                                {...register("password", { required: "required" })}
+                                {...register("password", {
+                                    required: true,
+                                    minLength: {
+                                        value: 5,
+                                        message: 'minimum length 5 characters'
+                                    }
+                                })}
                                 placeholder="password"
                             />
                             <div  className='text-sm absolute top-1'>
-                                {errors?.identifier && <p>{errors?.password?.message}</p>}
+                                {errors?.password && <p>{errors?.password?.message}</p>}
                             </div>
                         </div>
                         <button
