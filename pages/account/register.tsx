@@ -19,7 +19,11 @@ const Register = () => {
         })
         router.push('/')
     }
-    if (loading) return <h1>Signing Up ...</h1>
+    if (loading) return (
+        <Layout>
+            <h1 className='text-center mt-36 text-xl'>Signing Up ...</h1>
+        </Layout>
+    )
     const onSubmit = (data: any) => {
         console.log('data', data)
             signupUser({
@@ -31,10 +35,10 @@ const Register = () => {
     }
     return (
         <Layout>
-            {/*{error &&  <p className='text-center mt-20'>Invalid identifier or password</p>}*/}
+            {error &&  <p className='text-center mt-20'>Something went wrong</p>}
             <div className="flex flex-col items-center justify-center min-h-screen bg-white">
                 <div className="bg-green-400 w-full sm:w-3/4 max-w-lg p-12 pb-6 shadow-2xl rounded">
-                    <div className="text-white pb-4 text-3xl font-semibold">Acme Corporation</div>
+                    <div className="text-white pb-4 text-3xl font-semibold">Register</div>
                     <form  onSubmit={handleSubmit(onSubmit)}>
                         <div  className='h-16  relative flex items-end'>
                             <input
@@ -87,10 +91,9 @@ const Register = () => {
                             href="#1"
                             className="inline-block text-green-700 hover:text-green-900 align-baseline font-normal text-sm"
                         >
-                            Forgot password?
                         </a>
-                        <a href="#2" className="inline-block text-green-700 hover:text-green-900 font-normal text-sm">
-                            Create an Account
+                        <a onClick={() => router.push('/account/login')} href="#2" className="inline-block text-green-700 hover:text-green-900 font-normal text-sm">
+                            I have an Account
                         </a>
                     </div>
                 </div>

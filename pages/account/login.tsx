@@ -16,7 +16,11 @@ const Login = () => {
         mode: 'onBlur'
     })
 
-    if (loading) return <h1>login in ...</h1>
+    if (loading) return (
+        <Layout>
+            <h1 className='text-center mt-36 text-xl'>login in ...</h1>
+        </Layout>
+    )
 
     if (dataInput) {
         setCookie(null, 'graphqlToken', dataInput.login.jwt, {
@@ -41,7 +45,7 @@ const Login = () => {
             {error &&  <p className='text-center mt-20'>Invalid identifier or password</p>}
             <div className="flex flex-col items-center justify-center min-h-screen bg-white">
                 <div className="bg-green-400 w-full sm:w-3/4 max-w-lg p-12 pb-6 shadow-2xl rounded">
-                    <div className="text-white pb-4 text-3xl font-semibold">Acme Corporation</div>
+                    <div className="text-white pb-4 text-3xl font-semibold">Login</div>
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                     >
@@ -87,7 +91,6 @@ const Login = () => {
                             href="#1"
                             className="inline-block text-green-700 hover:text-green-900 align-baseline font-normal text-sm"
                         >
-                            Forgot password?
                         </a>
                         <a onClick={() => router.push('/account/register')} href="#2" className="inline-block text-green-700 hover:text-green-900 font-normal text-sm">
                             Create an Account
