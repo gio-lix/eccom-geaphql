@@ -15,13 +15,7 @@ const Login = () => {
     const {register, handleSubmit,reset, watch, formState: { errors }} = useForm({
         mode: 'onBlur'
     })
-    if (error) {
-        return (
-            <Layout>
-                <p className='text-center mt-20'>Invalid identifier or password</p>
-            </Layout>
-        )
-    }
+
     if (loading) return <h1>login in ...</h1>
 
     if (dataInput) {
@@ -44,6 +38,7 @@ const Login = () => {
 
     return (
         <Layout>
+            {error &&  <p className='text-center mt-20'>Invalid identifier or password</p>}
             <div className="flex flex-col items-center justify-center min-h-screen bg-white">
                 <div className="bg-green-400 w-full sm:w-3/4 max-w-lg p-12 pb-6 shadow-2xl rounded">
                     <div className="text-white pb-4 text-3xl font-semibold">Acme Corporation</div>
