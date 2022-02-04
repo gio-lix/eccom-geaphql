@@ -2,56 +2,68 @@ import React, {ChangeEvent, SyntheticEvent, useState} from 'react';
 import {useMutation} from "@apollo/client";
 import {LOGIN_USER} from "../../lib/mutation";
 import Layout from "../../components/Layout";
+import {useForm} from "react-hook-form";
 
 const Register = () => {
     const [signupUser, {loading,error, data }] = useMutation(LOGIN_USER)
-    const [formatData, setFormatData] = useState<{ identifier: string, email: string, password: string}>({
-        identifier: '',
-        email: '',
-        password: '',
-    });
+
+    const {register, handleSubmit,reset, watch, formState: { errors }} = useForm({
+        mode: 'onBlur'
+    })
     if (loading) return <h1>Signing Up ...</h1>
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setFormatData({...formatData ,[e.target.name]: e.target.value} )
-    }
-    const onHandleSubmit = (e: SyntheticEvent) => {
-        e.preventDefault()
-        signupUser({
-            variables: {
-                input: formatData
-            }
-        })
+    const onSubmit = (data: any) => {
+            signupUser({
+                variables: {
+                    input: data
+                }
+            })
+        reset()
     }
     return (
         <Layout>
             <div className="flex flex-col items-center justify-center min-h-screen bg-white">
                 <div className="bg-green-400 w-full sm:w-3/4 max-w-lg p-12 pb-6 shadow-2xl rounded">
                     <div className="text-white pb-4 text-3xl font-semibold">Acme Corporation</div>
-                    <form onSubmit={onHandleSubmit}>
-                        <input
-                            className="block text-gray-700 p-1 m-4 ml-0 w-full rounded text-lg font-normal placeholder-gray-300 outline-none"
-                            type="text"
-                            name='identifier'
-                            value={formatData.identifier}
-                            onChange={handleChange}
-                            placeholder="username"
-                        />
-                        <input
-                            className="block text-gray-700 p-1 m-4 ml-0 w-full rounded text-lg font-normal placeholder-gray-300 outline-none"
-                            name="email"
-                            type="email"
-                            value={formatData.email}
-                            onChange={handleChange}
-                            placeholder="your email"
-                        />
-                        <input
-                            className="block text-gray-700 p-1 m-4 ml-0 w-full rounded text-lg font-normal placeholder-gray-300 outline-none"
-                            name="password"
-                            type="password"
-                            value={formatData.password}
-                            onChange={handleChange}
-                            placeholder="password"
-                        />
+                    <form  onSubmit={handleSubmit(onSubmit)}>
+                        <div  className='h-16  relative flex items-end'>
+                            <input
+                                className="block text-gray-700 p-1 ml-0 w-full rounded text-lg font-normal placeholder-gray-300 outline-none"
+                                type="text"
+                                {...register("identifier", {
+                                    required: true,
+                                    minLength: {
+                                        value: 5,
+                                        message: 'minimum length 5 characters'
+                                    }
+                                })}
+                                placeholder="username"
+                            />
+                            <div  className='text-sm absolute top-1'>
+                                {errors?.identifier && <p>{errors?.identifier?.message}</p>}
+                            </div>
+                        </div>
+                        <div  className='h-16 relative flex items-end'>
+                            <input
+                                className="block text-gray-700 p-1  ml-0 w-full rounded text-lg font-normal placeholder-gray-300 outline-none"
+                                type="email"
+                                {...register("email", { required: "required" })}
+                                placeholder="your email"
+                            />
+                            <div  className='text-sm absolute top-1'>
+                                {errors?.identifier && <p>{errors?.email?.message}</p>}
+                            </div>
+                        </div>
+                        <div  className='h-16 relative flex items-end'>
+                            <input
+                                className="block text-gray-700 p-1 ml-0 w-full rounded text-lg font-normal placeholder-gray-300 outline-none"
+                                type="password"
+                                {...register("password", { required: "required" })}
+                                placeholder="password"
+                            />
+                            <div  className='text-sm absolute top-1'>
+                                {errors?.identifier && <p>{errors?.password?.message}</p>}
+                            </div>
+                        </div>
                         <button
                             type='submit'
                             className="inline-block mt-2 bg-green-600 hover:bg-green-700 focus:bg-green-800 px-6 py-2 rounded text-white shadow-lg"
