@@ -47,13 +47,13 @@ const Register = () => {
                                 {...register("username", {
                                     required: true,
                                     minLength: {
-                                        value: 5,
-                                        message: 'minimum length 5 characters'
+                                        value: 3,
+                                        message: 'minimum length 3 characters'
                                     }
                                 })}
                                 placeholder="username"
                             />
-                            <div  className='text-sm absolute top-1'>
+                            <div  className='text-sm absolute z-20 top-1'>
                                 {errors?.identifier && <p>{errors?.identifier?.message}</p>}
                             </div>
                         </div>

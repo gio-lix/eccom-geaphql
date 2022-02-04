@@ -69,7 +69,7 @@ const Login = () => {
                                     required: true,
                                     minLength: {
                                         value: 3,
-                                        message: 'minimum length 5 characters'
+                                        message: 'minimum length 3 characters'
                                     }
                                 })}
                                 placeholder="password"
